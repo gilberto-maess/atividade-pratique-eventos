@@ -59,4 +59,14 @@ public class Usuario {
 		return novoUsuario;
 	}
 	
+	public UsuarioData ToData() {
+		UsuarioData usuarioData = new UsuarioData();
+		
+		usuarioData.setId(id);
+		usuarioData.setNome(nome);
+		usuarioData.setEmail(email);
+		
+		return usuarioData;
+	}
+	
 }

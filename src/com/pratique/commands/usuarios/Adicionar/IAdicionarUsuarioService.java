@@ -1,4 +1,4 @@
-package com.pratique.commands.usuarios;
+package com.pratique.commands.usuarios.Adicionar;
 
 import java.io.IOException;
 
