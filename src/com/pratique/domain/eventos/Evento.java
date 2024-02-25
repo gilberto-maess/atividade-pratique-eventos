@@ -15,7 +15,8 @@ public class Evento {
 	private String nome;
 	private String descricao;
 	private Categoria categoria;
-	private LocalDateTime data;
+	private LocalDateTime inicio;
+	private LocalDateTime fim;
 	private Endereco endereco;
 	private List<Usuario> usuarios;
 	
@@ -44,12 +45,20 @@ public class Evento {
 		this.descricao = descricao;
 	}
 	
-	public LocalDateTime getData() {
-		return this.data;
+	public LocalDateTime getInicio() {
+		return this.inicio;
 	}
 	
-	public void setDescricao(LocalDateTime data) {
-		this.data = data;
+	public void setData(LocalDateTime inicio) {
+		this.inicio = inicio;
+	}
+	
+	public LocalDateTime getFim() {
+		return this.fim;
+	}
+	
+	public void setFim(LocalDateTime fim) {
+		this.fim = fim;
 	}
 	
 	public Categoria getCategoria() {
@@ -81,8 +90,12 @@ public class Evento {
 			throw new EventoException("O campo nome do evento é obrigatório");
 		}
 		
-		if (eventoData.getData() == null) {
-			throw new EventoException("O campo data do evento é obrigatório");
+		if (eventoData.getInicio() == null) {
+			throw new EventoException("O campo inicio do evento é obrigatório");
+		}
+		
+		if (eventoData.getFim() == null) {
+			throw new EventoException("O campo fim do evento é obrigatório");
 		}
 		
 		if (StringHelper.isNullOrEmpty(eventoData.getCategoria())) {
@@ -91,10 +104,6 @@ public class Evento {
 		
 		if (!Categoria.isValid(eventoData.getCategoria())) {
 			throw new EventoException("O campo categoria está inválido");
-		}
-		
-		if (eventoData.getData() == null) {
-			throw new EventoException("O campo data do evento é obrigatório");
 		}
 		
 		if (eventoData.getEndereco() == null) {
@@ -107,7 +116,8 @@ public class Evento {
 		novoEvento.nome = eventoData.getNome();
 		novoEvento.descricao = eventoData.getDescricao();
 		novoEvento.categoria = Categoria.fromString(eventoData.getCategoria());
-		novoEvento.data = eventoData.getData();
+		novoEvento.inicio = eventoData.getInicio();
+		novoEvento.fim = eventoData.getFim();
 		novoEvento.endereco = Endereco.criar(eventoData.getEndereco());
 		
 		return novoEvento;
@@ -126,6 +136,17 @@ public class Evento {
 		return encontrado;
 	}
 	
+	public void atualizar(Evento evento) {
+		id = evento.id;
+		nome = evento.nome;
+		descricao = evento.descricao;
+		categoria = evento.categoria;
+		inicio = evento.inicio;
+		fim = evento.fim;
+		endereco = evento.endereco;
+		usuarios = evento.usuarios;
+	}
+	
 	public void adicionarUsuario(Usuario usuario) throws EventoException {
 		if (usuarios == null) {
 			this.usuarios = new ArrayList<>();
@@ -135,6 +156,10 @@ public class Evento {
 				throw new EventoException("O usuário já estava cadastrado para este evento");
 			}
 			
+			if (this.fim.isBefore(LocalDateTime.now())) {
+				throw new EventoException("Este evento já está encerrado");
+			}
+			
 			this.usuarios.add(usuario);
 		}
 	}
@@ -142,6 +167,10 @@ public class Evento {
 	public void removerUsuario(Usuario usuario) throws EventoException {
 		if (usuarios == null) {
 			throw new EventoException("Nenhum usuário está registrado para este evento");
+		}
+		
+		if (this.fim.isBefore(LocalDateTime.now())) {
+			throw new EventoException("Este evento já está encerrado");
 		}
 		
 		this.usuarios.remove(usuario);

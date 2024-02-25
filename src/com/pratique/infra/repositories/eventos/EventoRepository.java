@@ -28,10 +28,37 @@ public class EventoRepository implements IEventoRepository {
 			return new ArrayList<>();
 		}
 	}
+	
+	public Evento getId(String id) throws IOException {
+		if (arquivo.exists()) {
+			Evento eventoEncontrado = null;
+			List<Evento> eventos = mapper.readValue(arquivo, new TypeReference<List<Evento>>(){});
+			for(Evento evento: eventos) {
+				if (evento.getId().equals(id)) {
+					eventoEncontrado = evento;
+					break;
+				}
+			}
+			return eventoEncontrado;
+		} else {
+			return null;
+		}
+	}
 
-	public void add(Evento usuario) throws IOException {
+	public void add(Evento evento) throws IOException {
         List<Evento> eventos = get();
-        eventos.add(usuario);
+        eventos.add(evento);
+        save(eventos);
+    }
+	
+	public void update(Evento evento) throws IOException {
+        List<Evento> eventos = get();
+        for(Evento eventoReferencia: eventos) {
+        	if (eventoReferencia.getId().equals(evento.getId())) {
+        		evento.atualizar(evento);
+        		break;
+        	}
+        }
         save(eventos);
     }
 

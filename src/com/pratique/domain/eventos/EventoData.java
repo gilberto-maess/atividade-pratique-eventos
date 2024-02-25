@@ -9,7 +9,8 @@ public class EventoData {
 	private String nome;
 	private String descricao;
 	private String categoria;
-	private LocalDateTime data;
+	private LocalDateTime inicio;
+	private LocalDateTime fim;
 	private EnderecoData endereco;
 	
 	public EventoData() { }
@@ -19,7 +20,8 @@ public class EventoData {
 		nome = evento.getNome();
 		descricao = evento.getDescricao();
 		categoria = evento.getCategoria().toString();
-		data = evento.getData();
+		inicio = evento.getInicio();
+		fim = evento.getFim();
 	}
 	
 	public String getId() {
@@ -54,12 +56,20 @@ public class EventoData {
 		this.categoria = categoria;
 	}
 	
-	public LocalDateTime getData() {
-		return this.data;
+	public LocalDateTime getInicio() {
+		return this.inicio;
 	}
 	
-	public void setDescricao(LocalDateTime data) {
-		this.data = data;
+	public void setData(LocalDateTime inicio) {
+		this.inicio = inicio;
+	}
+	
+	public LocalDateTime getFim() {
+		return this.fim;
+	}
+	
+	public void setFim(LocalDateTime fim) {
+		this.fim = fim;
 	}
 	
 	public EnderecoData getEndereco() {

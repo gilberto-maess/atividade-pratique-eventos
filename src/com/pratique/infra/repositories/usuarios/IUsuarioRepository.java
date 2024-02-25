@@ -7,6 +7,7 @@ import com.pratique.domain.usuarios.Usuario;
 
 public interface IUsuarioRepository {
 	List<Usuario> get() throws IOException;
+	Usuario getId(String id) throws IOException;
 	void add(Usuario usuario) throws IOException;
 	void del(String id) throws IOException;
 }
