@@ -11,6 +11,7 @@ public class Evento {
 	private String id;
 	private String nome;
 	private String descricao;
+	private Categoria categoria;
 	private LocalDateTime data;
 	private Endereco endereco;
 	
@@ -46,6 +47,14 @@ public class Evento {
 		this.data = data;
 	}
 	
+	public Categoria getCategoria() {
+		return this.categoria;
+	}
+	
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+	
 	public Endereco getEndereco() {
 		return this.endereco;
 	}
@@ -63,6 +72,14 @@ public class Evento {
 			throw new EventoException("O campo data do evento é obrigatório");
 		}
 		
+		if (StringHelper.isNullOrEmpty(eventoData.getCategoria())) {
+			throw new EventoException("O campo categoria é obrigatório");
+		}
+		
+		if (!Categoria.isValid(eventoData.getCategoria())) {
+			throw new EventoException("O campo categoria está inválido");
+		}
+		
 		if (eventoData.getData() == null) {
 			throw new EventoException("O campo data do evento é obrigatório");
 		}
@@ -76,6 +93,7 @@ public class Evento {
 		novoEvento.id = UUID.randomUUID().toString();
 		novoEvento.nome = eventoData.getNome();
 		novoEvento.descricao = eventoData.getDescricao();
+		novoEvento.categoria = Categoria.fromString(eventoData.getCategoria());
 		novoEvento.data = eventoData.getData();
 		novoEvento.endereco = Endereco.criar(eventoData.getEndereco());
 		
