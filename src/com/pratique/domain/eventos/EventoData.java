@@ -60,7 +60,7 @@ public class EventoData {
 		return this.inicio;
 	}
 	
-	public void setData(LocalDateTime inicio) {
+	public void setInicio(LocalDateTime inicio) {
 		this.inicio = inicio;
 	}
 	

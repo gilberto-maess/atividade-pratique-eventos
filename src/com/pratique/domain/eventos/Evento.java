@@ -20,7 +20,6 @@ public class Evento {
 	private Endereco endereco;
 	private List<Usuario> usuarios;
 	
-	
 	public String getId() {
 		return this.id;
 	}
