@@ -5,7 +5,6 @@ import java.util.UUID;
 import com.pratique.shared.StringHelper;
 
 public class Endereco {
-	private String id;
 	private String logradouro;
 	private String numero;
 	private String complemento;
@@ -13,14 +12,6 @@ public class Endereco {
 	private String cidade;
 	private String estado;
 	private String cep;
-	
-	public String getId() {
-		return this.id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	public String getLogradouro() {
 		return this.logradouro;
@@ -105,7 +96,6 @@ public class Endereco {
 		
 		Endereco novoEndereco = new Endereco();
 		
-		novoEndereco.id = UUID.randomUUID().toString();
 		novoEndereco.logradouro = enderecoData.getLogradouro();
 		novoEndereco.numero = enderecoData.getNumero();
 		novoEndereco.complemento = enderecoData.getComplemento();

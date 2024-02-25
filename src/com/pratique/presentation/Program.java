@@ -104,6 +104,7 @@ public class Program {
 			var = scanner.nextLine();
 		} while(StringHelper.isNullOrEmpty(var));
 		
+		scanner.close();
 		return var;
 	}
 	

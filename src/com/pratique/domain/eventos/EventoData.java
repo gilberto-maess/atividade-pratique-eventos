@@ -12,6 +12,16 @@ public class EventoData {
 	private LocalDateTime data;
 	private EnderecoData endereco;
 	
+	public EventoData() { }
+	
+	public EventoData(Evento evento) {
+		id = evento.getId();
+		nome = evento.getNome();
+		descricao = evento.getDescricao();
+		categoria = evento.getCategoria().toString();
+		data = evento.getData();
+	}
+	
 	public String getId() {
 		return this.id;
 	}

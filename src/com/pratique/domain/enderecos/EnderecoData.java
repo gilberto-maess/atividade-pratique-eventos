@@ -1,7 +1,6 @@
 package com.pratique.domain.enderecos;
 
 public class EnderecoData {
-	private String id;
 	private String logradouro;
 	private String numero;
 	private String complemento;
@@ -10,12 +9,16 @@ public class EnderecoData {
 	private String estado;
 	private String cep;
 	
-	public String getId() {
-		return this.id;
-	}
+	public EnderecoData() { }
 	
-	public void setId(String id) {
-		this.id = id;
+	public EnderecoData(Endereco endereco) {
+		logradouro = endereco.getLogradouro();
+		numero = endereco.getNumero();
+		complemento = endereco.getComplemento();
+		bairro = endereco.getBairro();
+		cidade = endereco.getCidade();
+		estado = endereco.getEstado();
+		cep = endereco.getCep();
 	}
 	
 	public String getLogradouro() {
