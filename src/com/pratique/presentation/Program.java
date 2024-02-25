@@ -31,11 +31,13 @@ public class Program {
 			System.out.println("3 - Sair");
 			System.out.println();
 			
-			opcao = getVar("Opcao Escolhida");
+			opcao = consoleRead("Opcao Escolhida");
 			
 			if (opcao.equals("1")) {
+				System.out.println();
 				ConsultarUsuarios();
 			} else if (opcao.equals("2")) {
+				System.out.println();
 				AdicionarUsuario();
 			} else if (opcao.equals("3")) {
 				System.out.println();
@@ -52,29 +54,48 @@ public class Program {
 		System.out.println("--------------------------------");
 		
 		List<UsuarioData> usuarios = consultaUsuariosService.Executar();
-		System.out.printf("%-36s %-30s %-30s%n", "ID", "Nome", "E-mail");
-        System.out.println("-------------------------------------------------------------------------------");
-		for(UsuarioData usuario: usuarios) {
-            System.out.printf("%-36s | %-30s | %-30s%n", usuario.getId(), usuario.getNome(), usuario.getEmail());
+		if (usuarios.size() == 0) {
+			System.out.println();
+			System.out.println("Nenhum usuário foi cadastrado");
+			System.out.println();
+		} else {
+			System.out.printf("%-36s %-30s %-30s%n", "ID", "Nome", "E-mail");
+	        System.out.println("-------------------------------------------------------------------------------");
+			for(UsuarioData usuario: usuarios) {
+	            System.out.printf("%-36s | %-30s | %-30s%n", usuario.getId(), usuario.getNome(), usuario.getEmail());
+			}
+			System.out.println();
 		}
 	}
 	
 	private static void AdicionarUsuario() throws UsuarioException, IOException {
-		System.out.println("--------------------------------");
-		System.out.println("Cadastro de Usuário");
-		System.out.println("--------------------------------");
+		boolean usuarioAdicionado = false;
 		
-		UsuarioData usuarioData = new UsuarioData();
-		usuarioData.setNome(getVar("Nome"));
-		usuarioData.setEmail(getVar("E-mail"));
-		adicionarUsuarioService.executar(usuarioData);
-		
-		System.out.println("--------------------------------");
-		System.out.println("Usuário cadastrado com sucesso!");
-		System.out.println("--------------------------------");
+		while(!usuarioAdicionado) {
+			try {
+				System.out.println("--------------------------------");
+				System.out.println("Cadastro de Usuário");
+				System.out.println("--------------------------------");
+				
+				UsuarioData usuarioData = new UsuarioData();
+				usuarioData.setNome(consoleRead("Nome"));
+				usuarioData.setEmail(consoleRead("E-mail"));
+				adicionarUsuarioService.executar(usuarioData);
+				
+				System.out.println();
+				System.out.println("Usuário cadastrado com sucesso!");
+				System.out.println();
+				usuarioAdicionado = true;
+			} catch(Exception ex) {
+				System.out.println();
+				System.out.println("Erro ao adicionar o usuário. Tente novamente!");
+				System.out.println(ex.toString());
+				System.out.println();
+			}
+		}
 	}
 	
-	private static String getVar(String label) {
+	private static String consoleRead(String label) {
 		Scanner scanner = new Scanner(System.in);
 		String var = "";
 		

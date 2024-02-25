@@ -47,7 +47,7 @@ public class Usuario {
 		}
 		
 		if (!StringHelper.isValidEmail(usuarioData.getEmail())) {
-			throw new UsuarioException("O campo email é obrigatório para se criar um usuário");
+			throw new UsuarioException("O campo email está inválido");
 		}
 		
 		Usuario novoUsuario = new Usuario();
