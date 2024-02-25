@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.pratique.shared.StringHelper;
 
-
 public class Usuario {
 	private String id;
 	private String nome;
