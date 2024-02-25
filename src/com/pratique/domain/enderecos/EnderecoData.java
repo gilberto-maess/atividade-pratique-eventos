@@ -73,4 +73,5 @@ public class EnderecoData {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
+
 }

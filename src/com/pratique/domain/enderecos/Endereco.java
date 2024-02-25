@@ -99,7 +99,7 @@ public class Endereco {
 			throw new EnderecoException("O campo estado é obrigatório");
 		}
 		
-		if (StringHelper.isNullOrEmpty(enderecoData.getCep()c)) {
+		if (StringHelper.isNullOrEmpty(enderecoData.getCep())) {
 			throw new EnderecoException("O campo cep é obrigatório");
 		}
 		

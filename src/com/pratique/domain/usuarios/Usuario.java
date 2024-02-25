@@ -33,24 +33,28 @@ public class Usuario {
 		this.email = email;
 	}
 	
-	public static Usuario criar(String nome, String email) throws UsuarioException {
-		if (StringHelper.isNullOrEmpty(nome)) {
+	public static Usuario criar(UsuarioData usuarioData) throws UsuarioException {
+		if (usuarioData == null) {
+			throw new UsuarioException("Nenhum dado informado para que o usuário seja criado");
+		}
+		
+		if (StringHelper.isNullOrEmpty(usuarioData.getNome())) {
 			throw new UsuarioException("O campo nome é obrigatório para se criar um usuário");
 		}
 		
-		if (StringHelper.isNullOrEmpty(email)) {
+		if (StringHelper.isNullOrEmpty(usuarioData.getEmail())) {
 			throw new UsuarioException("O campo email é obrigatório para se criar um usuário");
 		}
 		
-		if (StringHelper.isValidEmail(email)) {
+		if (StringHelper.isValidEmail(usuarioData.getEmail())) {
 			throw new UsuarioException("O campo email é obrigatório para se criar um usuário");
 		}
 		
 		Usuario novoUsuario = new Usuario();
 		
 		novoUsuario.id = UUID.randomUUID().toString();
-		novoUsuario.nome = nome;
-		novoUsuario.email = email;
+		novoUsuario.nome = usuarioData.getNome();
+		novoUsuario.email = usuarioData.getEmail();
 		
 		return novoUsuario;
 	}

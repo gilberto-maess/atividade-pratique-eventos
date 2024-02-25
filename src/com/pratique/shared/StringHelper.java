@@ -1,11 +1,14 @@
 package com.pratique.shared;
 
 public class StringHelper {
-	public static Boolean isNullOrEmpty(String str) {
+
+	private StringHelper() {}
+
+	public static boolean isNullOrEmpty(String str) {
 		return str == null || str.isEmpty();
 	}
 	
-	public static Boolean isValidEmail(String str) {
+	public static boolean isValidEmail(String str) {
 		if (isNullOrEmpty(str)) {
 			return false;
 		}
