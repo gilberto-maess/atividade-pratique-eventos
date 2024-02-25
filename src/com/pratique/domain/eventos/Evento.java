@@ -117,7 +117,7 @@ public class Evento {
 		boolean encontrado = false;
 		
 		for (Usuario usuarioReferencia : this.usuarios) {
-            if (usuarioReferencia.getId() == usuario.getId()) {
+            if (usuarioReferencia.getId().equals(usuario.getId())) {
                 encontrado = true;
                 break;
             }
