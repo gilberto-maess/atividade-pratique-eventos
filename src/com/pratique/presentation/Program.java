@@ -57,6 +57,13 @@ public class Program {
 		System.out.println("Gerenciador de Eventos");
 		System.out.println();
 
+		List<UsuarioData> usuarios = consultaUsuariosService.executar();
+		if (usuarios.size() == 0) {
+			System.out.println("Nenhum usuário cadastrado");
+			System.out.println();
+			adicionarUsuario(scanner, "Admin");
+		}
+
 		logarUsuario(scanner);
 
 		System.out.println();
@@ -103,11 +110,17 @@ public class Program {
 			} else if (opcao.equals("5")) {
 				listarEventosDoUsuario();
 			} else if (opcao.equals("6")) {
-				adicionarEvento(scanner);
+				if (usuarioSelecionado.getTipo().equals("ADMIN")) {
+					adicionarEvento(scanner);
+				}
 			} else if (opcao.equals("7")) {
-				consultarUsuarios(scanner);
+				if (usuarioSelecionado.getTipo().equals("ADMIN")) {
+					consultarUsuarios(scanner);
+				}
 			} else if (opcao.equals("8")) {
-				adicionarUsuario(scanner);
+				if (usuarioSelecionado.getTipo().equals("ADMIN")) {
+					adicionarUsuario(scanner, "");
+				}
 			} else if (opcao.equals("9")) {
 				desconectar(scanner);
 			} else {
@@ -223,7 +236,7 @@ public class Program {
 		}
 	}
 
-	private static void adicionarUsuario(Scanner scanner) throws UsuarioException, IOException {
+	private static void adicionarUsuario(Scanner scanner, String tipo) throws UsuarioException, IOException {
 		boolean usuarioAdicionado = false;
 
 		while (!usuarioAdicionado) {
@@ -235,10 +248,14 @@ public class Program {
 				UsuarioData usuarioData = new UsuarioData();
 				usuarioData.setNome(lerConsole("Nome", scanner));
 				usuarioData.setEmail(lerConsole("E-mail", scanner));
-				usuarioData.setTipo(
-						lerConsole(
-								"Tipo\nOpćoes Válidas -> Admin, Comum)",
-								scanner));
+				if (StringHelper.isNullOrEmpty(tipo)) {
+					usuarioData.setTipo(
+							lerConsole(
+									"Tipo\nOpćoes Válidas -> Admin, Comum)",
+									scanner));
+				} else {
+					usuarioData.setTipo(tipo);
+				}
 				usuarioData.setSenha(lerConsole("Senha", scanner));
 
 				System.out.println("Enderećo do Usuário");
@@ -314,13 +331,19 @@ public class Program {
 
 		String idEvento = lerConsole("idEvento", scanner);
 
-		inscreverUsuarioService.executar(
-				usuarioSelecionado.getId(),
-				idEvento);
+		try {
+			inscreverUsuarioService.executar(
+					usuarioSelecionado.getId(),
+					idEvento);
 
-		System.out.println();
-		System.out.println("Usuário inscrito com sucesso.");
-		System.out.println();
+			System.out.println();
+			System.out.println("Usuário inscrito com sucesso.");
+			System.out.println();
+		} catch (Exception ex) {
+			System.out.println();
+			System.out.println(String.format("Erro ao realizar a inscrição no evento. Erro: %s", ex.toString()));
+			System.out.println();
+		}
 	}
 
 	private static void cancelarInscricaoDoUsuario(Scanner scanner)
@@ -335,18 +358,25 @@ public class Program {
 
 		String idEvento = lerConsole("idEvento", scanner);
 
-		removerIncricaoDoUsuarioService.executar(
-				usuarioSelecionado.getId(),
-				idEvento);
+		try {
+			removerIncricaoDoUsuarioService.executar(
+					usuarioSelecionado.getId(),
+					idEvento);
 
-		System.out.println();
-		System.out.println("Usuário removido do evento com sucesso.");
-		System.out.println();
+			System.out.println();
+			System.out.println("Incrição removida do evento com sucesso.");
+			System.out.println();
+		} catch (Exception ex) {
+			System.out.println();
+			System.out.println(String.format("Erro ao cancelar a inscrição no evento. Erro: %s", ex.toString()));
+			System.out.println();
+		}
 	}
 
 	private static void logarUsuario(Scanner scanner)
 			throws NoSuchAlgorithmException, LogarUsuarioException, IOException {
 		while (true) {
+			System.out.println("Login");
 			String email = lerConsole("Email", scanner);
 			String senha = lerConsole("Senha", scanner);
 
