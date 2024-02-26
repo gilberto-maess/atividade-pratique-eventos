@@ -23,8 +23,8 @@ public class RemoverUsuarioService implements IRemoverUsuarioService {
 		this.eventoRepository = eventoRepository;
 	}
 	
-	public void Executar(String idUsuario, String idEvento) throws InscreverUsuarioException, IOException, EventoException {
-		Validar(idUsuario, idEvento);
+	public void executar(String idUsuario, String idEvento) throws InscreverUsuarioException, IOException, EventoException {
+		validar(idUsuario, idEvento);
 		
 		Usuario usuario = usuarioRepository.getId(idUsuario);
 		if (usuario == null) {
@@ -41,7 +41,7 @@ public class RemoverUsuarioService implements IRemoverUsuarioService {
 		eventoRepository.update(evento);
 	}
 	
-	private void Validar(String idUsuario, String idEvento) throws InscreverUsuarioException {
+	private void validar(String idUsuario, String idEvento) throws InscreverUsuarioException {
 		if (StringHelper.isNullOrEmpty(idUsuario)) {
 			throw new InscreverUsuarioException("O campo idUsuario é obrigatório");
 		}

@@ -7,5 +7,5 @@ import com.pratique.domain.eventos.Evento;
 import com.pratique.domain.eventos.EventoData;
 
 public interface IConsultarEventosService {
-	List<EventoData> Executar() throws IOException;
+	List<EventoData> executar() throws IOException;
 }

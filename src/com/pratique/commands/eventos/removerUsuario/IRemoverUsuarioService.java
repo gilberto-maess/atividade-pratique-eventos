@@ -6,5 +6,5 @@ import com.pratique.commands.eventos.inscreverUsuario.InscreverUsuarioException;
 import com.pratique.domain.eventos.EventoException;
 
 public interface IRemoverUsuarioService {
-	void Executar(String idUsuario, String idEvento) throws InscreverUsuarioException, IOException, EventoException;
+	void executar(String idUsuario, String idEvento) throws InscreverUsuarioException, IOException, EventoException;
 }

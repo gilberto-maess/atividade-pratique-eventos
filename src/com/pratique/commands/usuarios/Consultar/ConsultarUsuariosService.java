@@ -16,7 +16,7 @@ public class ConsultarUsuariosService implements IConsultarUsuariosService {
 		this.usuarioRepository = usuarioRepository;
 	}
 	
-	public List<UsuarioData> Executar() throws IOException {
+	public List<UsuarioData> executar() throws IOException {
 		List<Usuario> usuarios = this.usuarioRepository.get();
 		List<UsuarioData> usuariosData = new ArrayList<>();
 		

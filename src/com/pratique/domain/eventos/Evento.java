@@ -83,7 +83,7 @@ public class Evento {
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
-	
+
 	public static Evento criar(EventoData eventoData) throws EventoException, EnderecoException {
 		if (StringHelper.isNullOrEmpty(eventoData.getNome())) {
 			throw new EventoException("O campo nome do evento é obrigatório");

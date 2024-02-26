@@ -60,7 +60,7 @@ public class EventoRepository implements IEventoRepository {
         List<Evento> eventos = get();
         for(Evento eventoReferencia: eventos) {
         	if (eventoReferencia.getId().equals(evento.getId())) {
-        		evento.atualizar(evento);
+        		eventoReferencia.atualizar(evento);
         		break;
         	}
         }

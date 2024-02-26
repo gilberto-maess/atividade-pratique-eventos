@@ -79,4 +79,14 @@ public class EventoData {
 	public void setEndereco(EnderecoData endereco) {
 		this.endereco = endereco;
 	}
+	
+	public boolean estaOcorrendo() {
+		LocalDateTime agora = LocalDateTime.now();
+		return inicio.isBefore(agora) && fim.isAfter(agora);
+	}
+	
+	public boolean encerrou() {
+		LocalDateTime agora = LocalDateTime.now();
+		return fim.isBefore(agora);
+	}
 }

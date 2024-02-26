@@ -6,5 +6,5 @@ import java.util.List;
 import com.pratique.domain.usuarios.UsuarioData;
 
 public interface IConsultarUsuariosService {
-	List<UsuarioData> Executar() throws IOException;
+	List<UsuarioData> executar() throws IOException;
 }
