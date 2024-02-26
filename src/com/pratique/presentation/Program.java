@@ -86,10 +86,10 @@ public class Program {
 			System.out.println("Nenhum evento foi cadastrado");
 			System.out.println();
 		} else {
-			System.out.printf("%-36s %-30s %-30s%n", "ID", "Nome", "E-mail");
+			System.out.printf("%-36s %-30s %-30s %-30s %-30s%n", "ID", "Nome", "Descricao", "Inicio", "Fim");
 	        System.out.println("-------------------------------------------------------------------------------");
 			for(EventoData evento: eventos) {
-	            System.out.printf("%-36s | %-30s | %-30s%n", evento.getId(), evento.getNome(), evento.getDescricao());
+	            System.out.printf("%-36s | %-30s | %-30s | %-30s | %-30s%n", evento.getId(), evento.getNome(), evento.getDescricao(), evento.getInicio(), evento.getFim());
 			}
 			System.out.println();
 		}

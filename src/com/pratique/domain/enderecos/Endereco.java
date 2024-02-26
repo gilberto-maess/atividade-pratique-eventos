@@ -1,7 +1,5 @@
 package com.pratique.domain.enderecos;
 
-import java.util.UUID;
-
 import com.pratique.shared.StringHelper;
 
 public class Endereco {
@@ -99,6 +97,7 @@ public class Endereco {
 		novoEndereco.logradouro = enderecoData.getLogradouro();
 		novoEndereco.numero = enderecoData.getNumero();
 		novoEndereco.complemento = enderecoData.getComplemento();
+		novoEndereco.bairro = enderecoData.getBairro();
 		novoEndereco.cidade = enderecoData.getCidade();
 		novoEndereco.estado = enderecoData.getEstado();
 		novoEndereco.cep = enderecoData.getCep();

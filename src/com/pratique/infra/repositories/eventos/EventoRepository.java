@@ -7,11 +7,16 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pratique.domain.eventos.Evento;
 
 public class EventoRepository implements IEventoRepository {
 	private final File arquivo = new File("events.data");
 	private final ObjectMapper mapper = new ObjectMapper();
+	
+	public EventoRepository() {
+		mapper.registerModule(new JavaTimeModule());
+	}
 
 	private void save(List<Evento> eventos) {
         try {
