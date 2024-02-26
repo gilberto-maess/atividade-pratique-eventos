@@ -36,6 +36,9 @@ public class Program {
 		Scanner scanner = new Scanner(System.in);
 		String opcao = "";
 		
+		System.out.println();
+		consultarEventos();
+		
 		while(true) {
 			System.out.println("--------------------------------");
 			System.out.println("Menu");
