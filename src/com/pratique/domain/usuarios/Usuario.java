@@ -115,14 +115,4 @@ public class Usuario {
 		);
 	}
 
-	public UsuarioData toData() {
-		UsuarioData usuarioData = new UsuarioData();
-
-		usuarioData.setId(id);
-		usuarioData.setNome(nome);
-		usuarioData.setEmail(email);
-
-		return usuarioData;
-	}
-
 }

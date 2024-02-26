@@ -21,7 +21,7 @@ public class ConsultarUsuariosService implements IConsultarUsuariosService {
 		List<UsuarioData> usuariosData = new ArrayList<>();
 		
 		for(Usuario usuario: usuarios) {
-			usuariosData.add(usuario.toData());
+			usuariosData.add(new UsuarioData(usuario));
 		}
 		
 		return usuariosData;
