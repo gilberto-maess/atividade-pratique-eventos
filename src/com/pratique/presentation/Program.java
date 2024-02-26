@@ -6,7 +6,6 @@ import com.pratique.commands.usuarios.consultar.ConsultarUsuariosService;
 import com.pratique.commands.usuarios.consultar.IConsultarUsuariosService;
 import com.pratique.domain.enderecos.EnderecoData;
 import com.pratique.domain.enderecos.EnderecoException;
-import com.pratique.domain.eventos.Evento;
 import com.pratique.domain.eventos.EventoData;
 import com.pratique.domain.eventos.EventoException;
 import com.pratique.domain.usuarios.UsuarioData;
@@ -30,6 +29,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Program {
+
+	private static final String OPCAO_VER_EVENTOS = "1";
+    private static final String OPCAO_PARTICIPAR_EVENTO = "2";
+	private static final String OPCAO_CANCELAR_INSCRICAO_EM_EVENTO = "3";
+	private static final String OPCAO_VER_DADOS_DO_USUARIO = "4";
+	private static final String OPCAO_LISTAR_EVENTOS_DO_USUARIO = "5";
+	private static final String OPCAO_ADICIONAR_EVENTO = "6";
+	private static final String OPCAO_CONSULTAR_USUARIOS = "7";
+	private static final String OPCAO_ADICIONAR_USUARIO = "8";
+    private static final String OPCAO_LOGOUT = "9";
+    private static final String OPCAO_SAIR = "10";
 
 	private static IUsuarioRepository usuarioRepository = new UsuarioRepository();
 	private static IEventoRepository eventoRepository = new EventoRepository();
@@ -76,64 +86,64 @@ public class Program {
 			throws IOException, InscreverUsuarioException, EventoException, EnderecoException, UsuarioException,
 			NoSuchAlgorithmException, LogarUsuarioException {
 		while (true) {
-			System.out.println();
-			System.out.println("Menu");
-			System.out.println("1 - Ver eventos");
-			System.out.println("2 - Participar de evento");
-			System.out.println("3 - Cancelar participação em evento");
-			System.out.println("4 - Ver meus dados");
-			System.out.println("5 - Meus eventos");
-			if (usuarioSelecionado.getTipo().equals("ADMIN")) {
-				System.out.println("6 - Registrar evento");
-				System.out.println("7 - Ver usuários registrados");
-				System.out.println("8 - Registrar usuário");
-			}
-			System.out.println("9 - Logout");
-			System.out.println("10 - sair");
-			System.out.println();
+			exibirMenu(usuarioSelecionado.getTipo().equals("ADMIN"));
 
 			String opcao = lerConsole("Opção", scanner);
 
-			if (opcao.equals("1")) {
-				System.out.println();
-				consultarEventos();
-			} else if (opcao.equals("2")) {
-				System.out.println();
-				inscreverUsuarioEmEvento(scanner);
-				System.out.println();
-			} else if (opcao.equals("3")) {
-				System.out.println();
-				cancelarInscricaoDoUsuario(scanner);
-				System.out.println();
-			} else if (opcao.equals("4")) {
-				verDadosDoUsuario();
-			} else if (opcao.equals("5")) {
-				listarEventosDoUsuario();
-			} else if (opcao.equals("6")) {
-				if (usuarioSelecionado.getTipo().equals("ADMIN")) {
-					adicionarEvento(scanner);
-				}
-			} else if (opcao.equals("7")) {
-				if (usuarioSelecionado.getTipo().equals("ADMIN")) {
+			switch (opcao) {
+				case OPCAO_VER_EVENTOS:
+					consultarEventos();
+					break;
+				case OPCAO_PARTICIPAR_EVENTO:
+					inscreverUsuarioEmEvento(scanner);
+					break;
+				case OPCAO_CANCELAR_INSCRICAO_EM_EVENTO:
+					cancelarInscricaoDoUsuario(scanner);
+					break;
+				case OPCAO_VER_DADOS_DO_USUARIO:
 					consultarUsuarios(scanner);
-				}
-			} else if (opcao.equals("8")) {
-				if (usuarioSelecionado.getTipo().equals("ADMIN")) {
-					adicionarUsuario(scanner, "");
-				}
-			} else if (opcao.equals("9")) {
-				desconectar(scanner);
-			} else {
-				System.out.println();
-				System.out.println("Até breve!");
-				System.out.println();
-				break;
+					break;
+				case OPCAO_LISTAR_EVENTOS_DO_USUARIO:
+					listarEventosDoUsuario();
+					break;
+				case OPCAO_ADICIONAR_EVENTO:
+					adicionarEvento(scanner);
+					break;
+				case OPCAO_CONSULTAR_USUARIOS:
+					consultarUsuarios(scanner);
+					break;
+				case OPCAO_ADICIONAR_USUARIO:
+					adicionarUsuario(scanner, usuarioSelecionado.getTipo());
+					break;
+				case OPCAO_LOGOUT:
+					desconectar(scanner);
+					break;
+				case OPCAO_SAIR:
+					System.out.println("\nAté breve!\n");
+					return;
+				default:
+					System.out.println("\nOpção Inválida.\n");
+					break;
 			}
 		}
 	}
 
-	private static void verDadosDoUsuario() {
-		escreverDadosDoUsuario(usuarioSelecionado);
+	private static void exibirMenu(boolean ehAdmin) {
+		System.out.println();
+		System.out.println("Menu");
+		System.out.println("1 - Ver eventos");
+		System.out.println("2 - Participar de evento");
+		System.out.println("3 - Cancelar participação em evento");
+		System.out.println("4 - Ver meus dados");
+		System.out.println("5 - Meus eventos");
+		if (ehAdmin) {
+			System.out.println("6 - Registrar evento");
+			System.out.println("7 - Ver usuários registrados");
+			System.out.println("8 - Registrar usuário");
+		}
+		System.out.println("9 - Logout");
+		System.out.println("10 - Sair");
+		System.out.println();
 	}
 
 	private static void escreverDadosDoUsuario(UsuarioData usuario) {
