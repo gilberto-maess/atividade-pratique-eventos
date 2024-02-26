@@ -1,4 +1,4 @@
-package com.pratique.commands.usuarios.Consultar;
+package com.pratique.commands.usuarios.consultar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class ConsultarUsuariosService implements IConsultarUsuariosService {
 		List<UsuarioData> usuariosData = new ArrayList<>();
 		
 		for(Usuario usuario: usuarios) {
-			usuariosData.add(usuario.ToData());
+			usuariosData.add(usuario.toData());
 		}
 		
 		return usuariosData;

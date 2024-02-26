@@ -1,9 +1,9 @@
 package com.pratique.presentation;
 
-import com.pratique.commands.usuarios.Adicionar.AdicionarUsuarioService;
-import com.pratique.commands.usuarios.Adicionar.IAdicionarUsuarioService;
-import com.pratique.commands.usuarios.Consultar.IConsultarUsuariosService;
-import com.pratique.commands.usuarios.Consultar.ConsultarUsuariosService;
+import com.pratique.commands.usuarios.adicionar.AdicionarUsuarioService;
+import com.pratique.commands.usuarios.adicionar.IAdicionarUsuarioService;
+import com.pratique.commands.usuarios.consultar.ConsultarUsuariosService;
+import com.pratique.commands.usuarios.consultar.IConsultarUsuariosService;
 import com.pratique.domain.enderecos.EnderecoData;
 import com.pratique.domain.enderecos.EnderecoException;
 import com.pratique.domain.eventos.EventoData;
@@ -15,10 +15,10 @@ import com.pratique.infra.repositories.usuarios.UsuarioRepository;
 import com.pratique.shared.StringHelper;
 import com.pratique.infra.repositories.eventos.*;
 import com.pratique.commands.eventos.consultar.*;
+import com.pratique.commands.eventos.consultareventosdousuario.*;
 import com.pratique.commands.eventos.adicionar.*;
-import com.pratique.commands.eventos.inscreverUsuario.*;
 import com.pratique.commands.eventos.removerUsuario.*;
-import com.pratique.commands.eventos.consultarEventosDoUsuario.*;
+import com.pratique.commands.eventos.inscreverusuario.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -103,7 +103,9 @@ public class Program {
 				System.out.println("Obrigado por usar o programa");
 				break;
 			} else {
+				System.out.println();
 				System.out.println("Opcao Inválida");
+				System.out.println();
 			}
 		}
 

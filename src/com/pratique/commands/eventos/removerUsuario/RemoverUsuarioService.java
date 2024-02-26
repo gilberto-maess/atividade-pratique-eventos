@@ -2,7 +2,7 @@ package com.pratique.commands.eventos.removerUsuario;
 
 import java.io.IOException;
 
-import com.pratique.commands.eventos.inscreverUsuario.InscreverUsuarioException;
+import com.pratique.commands.eventos.inscreverusuario.InscreverUsuarioException;
 import com.pratique.domain.eventos.Evento;
 import com.pratique.domain.eventos.EventoException;
 import com.pratique.domain.usuarios.Usuario;
@@ -26,7 +26,7 @@ public class RemoverUsuarioService implements IRemoverUsuarioService {
 	public void executar(String idUsuario, String idEvento) throws InscreverUsuarioException, IOException, EventoException {
 		validar(idUsuario, idEvento);
 		
-		Usuario usuario = usuarioRepository.getId(idUsuario);
+		Usuario usuario = usuarioRepository.getById(idUsuario);
 		if (usuario == null) {
 			throw new InscreverUsuarioException("O usuário informado não existe");
 		}

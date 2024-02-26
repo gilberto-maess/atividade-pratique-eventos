@@ -29,12 +29,28 @@ public class UsuarioRepository implements IUsuarioRepository {
 		}
 	}
 	
-	public Usuario getId(String id) throws IOException {
+	public Usuario getById(String id) throws IOException {
 		if (arquivo.exists()) {
 			Usuario usuarioEncontrado = null;
 			List<Usuario> usuarios = mapper.readValue(arquivo, new TypeReference<List<Usuario>>(){});
 			for(Usuario usuario: usuarios) {
 				if (usuario.getId().equals(id)) {
+					usuarioEncontrado = usuario;
+					break;
+				}
+			}
+			return usuarioEncontrado;
+		} else {
+			return null;
+		}
+	}
+
+	public Usuario getByEmail(String email) throws IOException {
+		if (arquivo.exists()) {
+			Usuario usuarioEncontrado = null;
+			List<Usuario> usuarios = mapper.readValue(arquivo, new TypeReference<List<Usuario>>(){});
+			for(Usuario usuario: usuarios) {
+				if (usuario.getEmail().equals(email)) {
 					usuarioEncontrado = usuario;
 					break;
 				}

@@ -1,4 +1,4 @@
-package com.pratique.commands.eventos.consultarEventosDoUsuario;
+package com.pratique.commands.eventos.consultareventosdousuario;
 
 import java.io.IOException;
 import java.util.ArrayList;

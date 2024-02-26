@@ -1,4 +1,4 @@
-package com.pratique.commands.eventos.inscreverUsuario;
+package com.pratique.commands.eventos.inscreverusuario;
 
 import java.io.IOException;
 

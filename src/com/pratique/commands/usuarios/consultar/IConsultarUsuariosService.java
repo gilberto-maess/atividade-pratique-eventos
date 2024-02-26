@@ -1,4 +1,4 @@
-package com.pratique.commands.usuarios.Consultar;
+package com.pratique.commands.usuarios.consultar;
 
 import java.io.IOException;
 import java.util.List;

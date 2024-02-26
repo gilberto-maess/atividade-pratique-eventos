@@ -1,4 +1,4 @@
-package com.pratique.commands.eventos.inscreverUsuario;
+package com.pratique.commands.eventos.inscreverusuario;
 
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ public class InscreverUsuarioService implements IInscreverUsuarioService {
 	public void executar(String idUsuario, String idEvento) throws InscreverUsuarioException, IOException, EventoException {
 		validar(idUsuario, idEvento);
 		
-		Usuario usuario = usuarioRepository.getId(idUsuario);
+		Usuario usuario = usuarioRepository.getById(idUsuario);
 		if (usuario == null) {
 			throw new InscreverUsuarioException("O usuário informado não existe");
 		}
