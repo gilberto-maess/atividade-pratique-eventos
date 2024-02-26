@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 import com.pratique.domain.usuarios.Usuario;
+import com.pratique.domain.usuarios.UsuarioData;
 import com.pratique.infra.repositories.usuarios.IUsuarioRepository;
 import com.pratique.shared.StringHelper;
 
@@ -14,7 +15,7 @@ public class LogarUsuarioService implements ILogarUsuarioService {
 		this.usuarioRepository = usuarioRepository;
 	}
 
-    public Usuario executar(String email, String senha) throws LogarUsuarioException, IOException, NoSuchAlgorithmException {
+    public UsuarioData executar(String email, String senha) throws LogarUsuarioException, IOException, NoSuchAlgorithmException {
         validar(email, senha);
 
         Usuario usuario = usuarioRepository.getByEmail(email);
@@ -26,7 +27,7 @@ public class LogarUsuarioService implements ILogarUsuarioService {
             throw new LogarUsuarioException("Credenciais inválidas");
         }
 
-        return usuario;
+        return new UsuarioData(usuario);
     }
 
     private void validar(String email, String senha) throws LogarUsuarioException {

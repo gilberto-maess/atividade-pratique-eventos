@@ -6,6 +6,7 @@ import com.pratique.commands.usuarios.consultar.ConsultarUsuariosService;
 import com.pratique.commands.usuarios.consultar.IConsultarUsuariosService;
 import com.pratique.domain.enderecos.EnderecoData;
 import com.pratique.domain.enderecos.EnderecoException;
+import com.pratique.domain.eventos.Evento;
 import com.pratique.domain.eventos.EventoData;
 import com.pratique.domain.eventos.EventoException;
 import com.pratique.domain.usuarios.UsuarioData;
@@ -19,8 +20,10 @@ import com.pratique.commands.eventos.consultareventosdousuario.*;
 import com.pratique.commands.eventos.adicionar.*;
 import com.pratique.commands.eventos.removerUsuario.*;
 import com.pratique.commands.eventos.inscreverusuario.*;
+import com.pratique.commands.usuarios.logar.*;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -42,74 +45,72 @@ public class Program {
 			eventoRepository);
 	private static IConsultarEventosDoUsuarioService consultarEventosDoUsuarioService = new ConsultarEventosDoUsuarioService(
 			eventoRepository);
+	private static ILogarUsuarioService logarUsuarioService = new LogarUsuarioService(usuarioRepository);
 	private static UsuarioData usuarioSelecionado = null;
 
 	public static void main(String args[])
-			throws UsuarioException, IOException, EventoException, EnderecoException, InscreverUsuarioException {
+			throws UsuarioException, IOException, EventoException, EnderecoException, InscreverUsuarioException,
+			NoSuchAlgorithmException, LogarUsuarioException {
 		Scanner scanner = new Scanner(System.in);
-		String opcao = "";
+
+		System.out.println();
+		System.out.println("Gerenciador de Eventos");
+		System.out.println();
+
+		logarUsuario(scanner);
 
 		System.out.println();
 		consultarEventos();
 
 		while (true) {
-			if (usuarioSelecionado != null) {
-				System.out.println(
-						String.format(
-								"Usuário Selecionado: %s, %s",
-								usuarioSelecionado.getId(),
-								usuarioSelecionado.getNome()));
-				System.out.println();
-			}
-
-			System.out.println("--------------------------------");
+			System.out.println();
 			System.out.println("Menu");
-			System.out.println("--------------------------------");
-			System.out.println("1 - Consultar Eventos");
-			System.out.println("2 - Cadastrar Evento");
-			System.out.println("3 - Consultar Usuários");
-			System.out.println("4 - Consultar Eventos do Usuário");
-			System.out.println("5 - Adicionar Usuário");
-			System.out.println("6 - Inscrever Usuário em Evento");
-			System.out.println("7 - Remover Usuario de Evento");
-			System.out.println("8 - Sair");
+			System.out.println("1 - Ver eventos");
+			System.out.println("2 - Participar de evento");
+			System.out.println("3 - Cancelar participação em evento");
+			System.out.println("4 - Ver meus dados");
+			System.out.println("5 - Sair");
 			System.out.println();
 
-			opcao = lerConsole("Opcao Escolhida", scanner);
+			String opcao = lerConsole("Opção", scanner);
 
 			if (opcao.equals("1")) {
 				System.out.println();
 				consultarEventos();
 			} else if (opcao.equals("2")) {
 				System.out.println();
-				adicionarEvento(scanner);
+				inscreverUsuarioEmEvento(scanner);
+				System.out.println();
 			} else if (opcao.equals("3")) {
 				System.out.println();
-				consultarUsuarios(scanner);
-			} else if (opcao.equals("4")) {
-				System.out.println();
-				listarEventosDoUsuario();
-			} else if (opcao.equals("5")) {
-				System.out.println();
-				adicionarUsuario(scanner);
-			} else if (opcao.equals("6")) {
-				System.out.println();
-				inscreverUsuarioEmEvento(scanner);
-			} else if (opcao.equals("7")) {
-				System.out.println();
 				cancelarInscricaoDoUsuario(scanner);
-			} else if (opcao.equals("8")) {
 				System.out.println();
-				System.out.println("Obrigado por usar o programa");
-				break;
+			} else if (opcao.equals("4")) {;
+				verDadosDoUsuario();
 			} else {
 				System.out.println();
-				System.out.println("Opcao Inválida");
+				System.out.println("Até breve!");
 				System.out.println();
+				break;
 			}
 		}
+	}
 
-		scanner.close();
+	private static void verDadosDoUsuario() {
+		System.out.println("--------------------------------------------");
+		System.out.printf("ID: %s%n", usuarioSelecionado.getId());
+		System.out.printf("Nome: %s%n", usuarioSelecionado.getNome());
+		System.out.printf("E-mail: %s%n", usuarioSelecionado.getEmail());
+		System.out.printf("Tipo: %s%n", usuarioSelecionado.getTipo());
+		System.out.println("Endereço:");
+		EnderecoData endereco = usuarioSelecionado.getEndereco();
+		System.out.printf("  Logradouro: %s, Nº %s%n", endereco.getLogradouro(), endereco.getNumero());
+		System.out.printf("  Complemento: %s%n", endereco.getComplemento());
+		System.out.printf("  Bairro: %s%n", endereco.getBairro());
+		System.out.printf("  Cidade: %s%n", endereco.getCidade());
+		System.out.printf("  Estado: %s%n", endereco.getEstado());
+		System.out.printf("  CEP: %s%n", endereco.getCep());
+		System.out.println("--------------------------------------------");
 	}
 
 	private static void consultarEventos() throws IOException {
@@ -119,26 +120,21 @@ public class Program {
 
 		List<EventoData> eventos = consultarEventosService.executar();
 		if (eventos.size() == 0) {
-			System.out.println();
 			System.out.println("Nenhum evento foi cadastrado");
-			System.out.println();
 		} else {
-			System.out.printf("%-38s %-18s %-32s %-18s %-18s %-11s %-10s%n", "ID", "Nome", "Descricao", "Inicio", "Fim",
-					"Ocorrendo", "Encerrou");
-			System.out.println(
-					"-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			System.out.println("--------------------------------------------");
 			for (EventoData evento : eventos) {
-				System.out.printf(
-						"%-36s | %-18s | %-30s | %-10s | %-10s | %-10s | %-10s%n",
-						evento.getId(),
-						evento.getNome(),
-						evento.getDescricao(),
-						evento.getInicio(),
-						evento.getFim(),
-						evento.estaOcorrendo(),
-						evento.encerrou());
+				System.out.printf("ID: %s%n", evento.getId());
+				System.out.printf("Nome: %s%n", evento.getNome());
+				System.out.printf("Descrição: %s%n", evento.getDescricao());
+				System.out.printf("Categoria: %s%n", evento.getCategoria());
+				System.out.printf("Início: %s%n", evento.getInicio().format(formatter));
+				System.out.printf("Fim: %s%n", evento.getFim().format(formatter));
+				System.out.printf("Está Ocorrendo: %s%n", evento.estaOcorrendo() ? "Sim" : "Não");
+				System.out.printf("Encerrou: %s%n", evento.encerrou() ? "Sim" : "Não");
+				System.out.println("--------------------------------------------");
 			}
-			System.out.println();
 		}
 	}
 
@@ -248,6 +244,24 @@ public class Program {
 				UsuarioData usuarioData = new UsuarioData();
 				usuarioData.setNome(lerConsole("Nome", scanner));
 				usuarioData.setEmail(lerConsole("E-mail", scanner));
+				usuarioData.setTipo(
+						lerConsole(
+								"Tipo\nOpćoes Válidas -> Admin, Comum)",
+								scanner));
+				usuarioData.setSenha(lerConsole("Senha", scanner));
+
+				System.out.println("Enderećo do Usuário");
+				EnderecoData enderecoData = new EnderecoData();
+				enderecoData.setLogradouro(lerConsole("Logradouro", scanner));
+				enderecoData.setNumero(lerConsole("Número", scanner));
+				enderecoData.setComplemento(lerConsole("Complemento", scanner));
+				enderecoData.setBairro(lerConsole("Bairro", scanner));
+				enderecoData.setCidade(lerConsole("Cidade", scanner));
+				enderecoData.setEstado(lerConsole("Estado", scanner));
+				enderecoData.setCep(lerConsole("Cep", scanner));
+
+				usuarioData.setEndereco(enderecoData);
+
 				adicionarUsuarioService.executar(usuarioData);
 
 				System.out.println();
@@ -278,7 +292,8 @@ public class Program {
 
 		List<EventoData> eventos = consultarEventosDoUsuarioService.executar(usuarioSelecionado.getId());
 		if (eventos.size() == 0) {
-			System.out.println(String.format("O usuário %s não está inscrito em nenhum evento", usuarioSelecionado.getNome()));
+			System.out.println(
+					String.format("O usuário %s não está inscrito em nenhum evento", usuarioSelecionado.getNome()));
 			System.out.println();
 		} else {
 			System.out.printf("%-38s %-18s %-32s %-18s %-18s %-11s %-10s%n", "ID", "Nome", "Descricao", "Inicio", "Fim",
@@ -340,6 +355,39 @@ public class Program {
 		System.out.println();
 		System.out.println("Usuário removido do evento com sucesso.");
 		System.out.println();
+	}
+
+	private static void logarUsuario(Scanner scanner)
+			throws NoSuchAlgorithmException, LogarUsuarioException, IOException {
+		while (true) {
+			String email = lerConsole("Email", scanner);
+			String senha = lerConsole("Senha", scanner);
+
+			try {
+				usuarioSelecionado = logarUsuarioService.executar(email, senha);
+				break;
+			} catch (Exception ex) {
+				System.out.println();
+				System.out.println(String.format("Não foi possível autenticar o usuário. Erro: %s", ex.toString()));
+				System.out.println();
+
+				System.out.println("Deseja tentar novamente?");
+				System.out.println("1 - Sim");
+				System.out.println("2 - Não");
+
+				System.out.println();
+				String opcao = lerConsole("Opção", scanner);
+				System.out.println();
+
+				if (opcao.equals("2")) {
+					break;
+				}
+			}
+		}
+	}
+
+	private static void desconectar() {
+		usuarioSelecionado = null;
 	}
 
 	private static String lerConsole(String label, Scanner scanner) {
