@@ -1,12 +1,14 @@
-# Pratique
+# IBMR - Sistemas para Internet
 
-## Imersão Digital
+## Pratique - PROGRAMAÇÃO DE SOLUÇÕES COMPUTACIONAIS
 
-## Enunciado da Atividade
+### Imersão Digital
+
+### Enunciado da Atividade
 
 A demanda pela criação de sistemas visando automatizar e digitalizar processos tem crescido exponencialmente. Consequentemente, muitos profissionais são alocados nessas atividades, o que torna o campo de atuação da área de tecnologia da informação bastante vasto e com alta demanda. Apesar desse  cenário profissional favorável, para desenvolver as competências para atuar com programação é necessário praticar e implementar sistemas. Para tal, essa atividade propõe a criação de um protótipo de sistema de entregas, em que você aplicará o conhecimento que foi construído ao longo dos seus estudos.
 
-## Comando da atividade:
+### Comando da atividade:
 
 Implemente um sistema em linguagem de programação Java utilizando a IDE de sua preferência. Algumas sugestões são: Eclipse, NetBeans, IntelliJ e Replit. No slide seguinte,  a entrega deverá ser realizada com a inserção do link de repositório de códigos que contenha os diferentes arquivos e partes do código utilizados.
 Siga as diretrizes que seguem para o desenvolvimento da atividade:
